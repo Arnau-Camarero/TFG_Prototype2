@@ -36,7 +36,7 @@ public class DoorBehaviour : NetworkBehaviour
         targetDoorLeft = doorLeft.transform.position.x - distanceToTravel;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (IsOwner)
         {
