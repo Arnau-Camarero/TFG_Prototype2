@@ -6,17 +6,12 @@ using UnityEngine;
 public class PressurePlate : NetworkBehaviour
 {
     public bool isPressed = false;
-    private NetworkVariable<bool> platePressed = new NetworkVariable<bool>(false);
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner)
-        {
+        if(!IsOwner){
             enabled = false;
-        }
-        else
-        {
-            platePressed.OnValueChanged += OnPlatePressedChanged;
+            return;
         }
     }
 
@@ -24,8 +19,7 @@ public class PressurePlate : NetworkBehaviour
     {
         if (col.gameObject.tag == "Player" || col.gameObject.tag == "Prop")
         {
-            isPressed = true;
-            PlatePressedServerRpc(true);
+            PlatePressedRpc(true);
         }
     }
 
@@ -33,28 +27,13 @@ public class PressurePlate : NetworkBehaviour
     {
         if (col.gameObject.tag == "Player" || col.gameObject.tag == "Prop")
         {
-            isPressed = false;
-            PlatePressedServerRpc(false);
+            PlatePressedRpc(false);
         }
     }
 
-    [ServerRpc]
-    void PlatePressedServerRpc(bool pressed)
+    [Rpc(SendTo.Everyone)]
+    void PlatePressedRpc(bool pressed)
     {
-        platePressed.Value = pressed;
-    }
-
-    void OnPlatePressedChanged(bool oldValue, bool newValue)
-    {
-        isPressed = newValue;
-        Debug.Log($"Plate pressed state changed to: {newValue}");
-    }
-
-    private void OnDestroy()
-    {
-        if (IsOwner)
-        {
-            platePressed.OnValueChanged -= OnPlatePressedChanged;
-        }
+        isPressed = pressed;
     }
 }

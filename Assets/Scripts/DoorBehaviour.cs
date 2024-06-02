@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class DoorBehaviour : NetworkBehaviour
+public class DoorBehaviour : MonoBehaviour
 {
     public PressurePlate pressurePlate1;
     public PressurePlate pressurePlate2;
@@ -16,17 +16,10 @@ public class DoorBehaviour : NetworkBehaviour
     private float targetDoorRight;
     private float targetDoorLeft;
 
-    private NetworkVariable<bool> platesPressed = new NetworkVariable<bool>(false);
-    private NetworkVariable<Vector3> doorLeftPosition = new NetworkVariable<Vector3>();
-    private NetworkVariable<Vector3> doorRightPosition = new NetworkVariable<Vector3>();
+    void Start(){
 
-    public override void OnNetworkSpawn()
-    {
-        if (!IsOwner)
-        {
-            enabled = false;
-            return;
-        }
+        pressurePlate1 = GameObject.FindGameObjectWithTag("Plate").GetComponent<PressurePlate>();
+        pressurePlate2 = GameObject.FindGameObjectWithTag("PlateCube").GetComponent<PressurePlate>();
 
         doorLeft.transform.position = doorLeftInitPos;
         doorRight.transform.position = doorRightInitPos;
@@ -35,31 +28,18 @@ public class DoorBehaviour : NetworkBehaviour
         targetDoorRight = doorRight.transform.position.x + distanceToTravel;
         targetDoorLeft = doorLeft.transform.position.x - distanceToTravel;
     }
-
     void Update()
     {
-        if (IsOwner)
-        {
+        if(!pressurePlate1 || !pressurePlate2){
+            pressurePlate1 = GameObject.FindGameObjectWithTag("Plate").GetComponent<PressurePlate>();
+            pressurePlate2 = GameObject.FindGameObjectWithTag("PlateCube").GetComponent<PressurePlate>();
+        }else{
             bool arePlatesPressed = pressurePlate1.isPressed && pressurePlate2.isPressed;
-            if (arePlatesPressed != platesPressed.Value)
-            {
-                Debug.Log("IN RPC: ");
-                Debug.Log(arePlatesPressed);
-                platesPressed.Value = arePlatesPressed;
-                //SetDoorsPositionServerRpc(platesPressed.Value);
-            }
-
-            if (platesPressed.Value)
+            if (arePlatesPressed)
             {
                 Debug.Log("MOVINGDOORS");
-                //MoveDoors();
-                SetDoorsPositionServerRpc(platesPressed.Value);
+                MoveDoors();
             }
-        }
-        else
-        {
-            doorLeft.transform.position = doorLeftPosition.Value;
-            doorRight.transform.position = doorRightPosition.Value;
         }
     }
 
@@ -71,18 +51,6 @@ public class DoorBehaviour : NetworkBehaviour
             Vector3 newPosRight = new Vector3(doorRight.transform.position.x + Time.deltaTime, doorRight.transform.position.y, doorRight.transform.position.z);
             doorLeft.transform.position = newPosLeft;
             doorRight.transform.position = newPosRight;
-
-            doorLeftPosition.Value = newPosLeft;
-            doorRightPosition.Value = newPosRight;
-        }
-    }
-
-    [ServerRpc]
-    private void SetDoorsPositionServerRpc(bool platesPressed)
-    {
-        if (platesPressed)
-        {
-            MoveDoors();
         }
     }
 }
