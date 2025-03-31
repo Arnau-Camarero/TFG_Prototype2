@@ -77,15 +77,17 @@ public class PlayerMovement : NetworkBehaviour
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player")
         {
             isGrounded = true;
+            canJump = true;
         }
 
         if (collision.gameObject.tag == "Prop" && this.gameObject.transform.position.y < 1)
         {
             canJump = false;
-        }else{
-            canJump = true;
-            isGrounded = true;
         }
+        // else{
+        //     canJump = true;
+        //     isGrounded = true;
+        // }
     }
 
     void OnTriggerEnter(Collider col){
