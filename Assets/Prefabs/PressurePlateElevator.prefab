@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 5262816287134119337}
   - component: {fileID: 5241708706691653725}
   - component: {fileID: 386159928462884567}
-  - component: {fileID: 600085829319645438}
+  - component: {fileID: 5844617800893611363}
   m_Layer: 0
-  m_Name: PressurePlate (1)
+  m_Name: PressurePlateElevator
   m_TagString: PlateCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 7141563766158172721}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.47, y: 0.01, z: 4.94}
+  m_LocalPosition: {x: -5.67, y: 0.01, z: 4.9}
   m_LocalScale: {x: 1.5, y: 2.9445, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -220,7 +220,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &600085829319645438
+--- !u!114 &5844617800893611363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7141563766158172721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 747e72134b3814f45be8f3b8c28d7556, type: 3}
+  m_Script: {fileID: 11500000, guid: 8444e79490413d6468dfcc652db8655c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isPressed: 0

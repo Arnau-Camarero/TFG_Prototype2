@@ -54,12 +54,7 @@ public class Elevator : NetworkBehaviour
     {
         if (!isMovingUp.Value && !isMovingDown.Value)
         {
-            Debug.Log("Elevator activated. Starting sequence.");
             StartCoroutine(ElevatorSequence());
-        }
-        else
-        {
-            Debug.Log("Elevator is already moving.");
         }
     }
 
@@ -78,7 +73,6 @@ public class Elevator : NetworkBehaviour
 
     private void MoveUp()
     {
-        Debug.Log("Elevator moving up.");
         Vector3 targetPosition = new Vector3(originalPosition.x, originalPosition.y + targetHeight, originalPosition.z);
 
         // Calculate the direction to move
@@ -97,7 +91,6 @@ public class Elevator : NetworkBehaviour
 
     private void MoveDown()
     {
-        Debug.Log("Elevator moving down.");
         Vector3 direction = (originalPosition - transform.position).normalized;
 
         // Apply force to the Rigidbody
@@ -126,7 +119,6 @@ public class Elevator : NetworkBehaviour
         if (boxCollider != null)
         {
             boxCollider.isTrigger = isTrigger;
-            Debug.Log($"BoxCollider isTrigger set to {isTrigger}");
         }
     }
 
