@@ -5,29 +5,21 @@ using Unity.Netcode;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] public Material player2;
-
-    // La velocidad de movimiento del jugador
     public float speed = 5.0f;
     public float sprint = 1.3f;
 
-    // La fuerza de salto del jugador
     public float jumpForce = 8.0f;
 
-    // La gravedad que afecta al jugador
     public float gravity = 9.81f;
 
-    // El cuerpo del jugador
     private Rigidbody rb;
 
-    // Indica si el jugador está en el suelo
     public bool isGrounded = true;
     public bool canJump = true;
     public bool isFinished = false;
 
     public override void OnNetworkSpawn(){
         if(!IsOwner){
-            GetComponent<MeshRenderer>().material = player2;
             enabled = false;
             return;
         }

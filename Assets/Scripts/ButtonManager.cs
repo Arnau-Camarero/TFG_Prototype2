@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 public class ButtonManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject elevator; 
+    [SerializeField] private GameObject elevator;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,13 +16,33 @@ public class ButtonManager : NetworkBehaviour
                 if (elevator != null)
                 {
                     Debug.Log("Button pressed. Activating elevator.");
-                    elevator.GetComponent<Elevator>().ActivateElevator();
+                    ActivateElevatorServerRpc();
                 }
                 else
                 {
                     Debug.LogError("Elevator reference is null in ButtonManager.");
                 }
             }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ActivateElevatorServerRpc()
+    {
+        if (elevator != null)
+        {
+            elevator.GetComponent<Elevator>().ActivateElevator();
+            NotifyClientsElevatorActivatedClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    private void NotifyClientsElevatorActivatedClientRpc()
+    {
+        if (elevator != null)
+        {
+            Debug.Log("Elevator activated on client.");
+            elevator.GetComponent<Elevator>().ActivateElevator();
         }
     }
 }

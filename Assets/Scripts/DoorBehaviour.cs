@@ -5,8 +5,8 @@ using Unity.Netcode;
 
 public class DoorBehaviour : MonoBehaviour
 {
-    public PressurePlate pressurePlate1;
-    public PressurePlate pressurePlate2;
+    public PressurePlate pressurePlatePlayer;
+    public PressurePlateElevator pressurePlateCube;
     public GameObject doorRight;
     public GameObject doorLeft;
 
@@ -18,8 +18,8 @@ public class DoorBehaviour : MonoBehaviour
 
     void Start(){
 
-        pressurePlate1 = GameObject.FindGameObjectWithTag("Plate").GetComponent<PressurePlate>();
-        pressurePlate2 = GameObject.FindGameObjectWithTag("PlateCube").GetComponent<PressurePlate>();
+        pressurePlatePlayer = GameObject.FindGameObjectWithTag("Plate").GetComponent<PressurePlate>();
+        pressurePlateCube = GameObject.FindGameObjectWithTag("PlateCube").GetComponent<PressurePlateElevator>();
 
         doorLeft.transform.position = doorLeftInitPos;
         doorRight.transform.position = doorRightInitPos;
@@ -30,14 +30,13 @@ public class DoorBehaviour : MonoBehaviour
     }
     void Update()
     {
-        if(!pressurePlate1 || !pressurePlate2){
-            pressurePlate1 = GameObject.FindGameObjectWithTag("Plate").GetComponent<PressurePlate>();
-            pressurePlate2 = GameObject.FindGameObjectWithTag("PlateCube").GetComponent<PressurePlate>();
+        if(!pressurePlatePlayer || !pressurePlateCube){
+            pressurePlatePlayer = GameObject.FindGameObjectWithTag("Plate").GetComponent<PressurePlate>();
+            pressurePlateCube = GameObject.FindGameObjectWithTag("PlateCube").GetComponent<PressurePlateElevator>();
         }else{
-            bool arePlatesPressed = pressurePlate1.isPressed && pressurePlate2.isPressed;
+            bool arePlatesPressed = pressurePlatePlayer.isPressed && pressurePlateCube.isPressed;
             if (arePlatesPressed)
             {
-                Debug.Log("MOVINGDOORS");
                 MoveDoors();
             }
         }

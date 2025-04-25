@@ -15,14 +15,13 @@ public class Elevator : NetworkBehaviour
     private NetworkVariable<bool> isMovingUp = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<bool> isMovingDown = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    private HashSet<Rigidbody> objectsOnElevator = new HashSet<Rigidbody>();
+
     public override void OnNetworkSpawn()
     {
         originalPosition = transform.position; // Store the original position of the elevator
         rb = GetComponent<Rigidbody>(); // Get the Rigidbody component
         boxCollider = GetComponent<BoxCollider>(); // Get the BoxCollider component
-
-        // Freeze the Y position initially
-        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 
         // Subscribe to changes in the network variables
         isMovingUp.OnValueChanged += OnIsMovingUpChanged;
@@ -48,13 +47,22 @@ public class Elevator : NetworkBehaviour
             FreezeYPosition(); // Freeze Y position when idle
             SetColliderTrigger(true); 
         }
+
+        // Move objects on the elevator
+        foreach (var objRb in objectsOnElevator)
+        {
+            objRb.velocity = rb.velocity;
+        }
     }
 
     public void ActivateElevator()
     {
-        if (!isMovingUp.Value && !isMovingDown.Value)
+        if (IsServer)
         {
-            StartCoroutine(ElevatorSequence());
+            if (!isMovingUp.Value && !isMovingDown.Value)
+            {
+                StartCoroutine(ElevatorSequence());
+            }
         }
     }
 
@@ -119,6 +127,24 @@ public class Elevator : NetworkBehaviour
         if (boxCollider != null)
         {
             boxCollider.isTrigger = isTrigger;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Rigidbody otherRb = other.attachedRigidbody;
+        if (otherRb != null)
+        {
+            objectsOnElevator.Add(otherRb);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Rigidbody otherRb = other.attachedRigidbody;
+        if (otherRb != null)
+        {
+            objectsOnElevator.Remove(otherRb);
         }
     }
 

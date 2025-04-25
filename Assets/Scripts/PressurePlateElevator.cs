@@ -7,6 +7,7 @@ public class PressurePlateElevator : NetworkBehaviour
 {
     public bool isPressed = false;
     public GameObject exitBlock;
+    public GameObject PlateexitBlock;
 
     public override void OnNetworkSpawn()
     {
@@ -45,6 +46,7 @@ public class PressurePlateElevator : NetworkBehaviour
         {
             Debug.Log("Activating exit block movement");
             exitBlock.GetComponent<ExitBlock>().StartMovingDown(); // Trigger ExitBlock movement
+            PlateexitBlock.GetComponent<ExitBlock>().StartMovingDown(); // Trigger ExitBlock movement
             NotifyClientsToMoveBlockClientRpc();
         }
     }
@@ -55,6 +57,7 @@ public class PressurePlateElevator : NetworkBehaviour
         if (!IsServer)
         {
             exitBlock.GetComponent<ExitBlock>().StartMovingDown(); // Trigger movement on clients
+            PlateexitBlock.GetComponent<ExitBlock>().StartMovingDown(); // Trigger ExitBlock movement
         }
     }
 }

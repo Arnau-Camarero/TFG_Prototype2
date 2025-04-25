@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3849372241876867251}
   - component: {fileID: 6012629629051821556}
   - component: {fileID: 7302602113290189881}
+  - component: {fileID: -1438642500404963283}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7383690717775763570}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.612, y: 0.471, z: 5.005}
+  m_LocalPosition: {x: -3.612, y: 0.471, z: 5.75}
   m_LocalScale: {x: 0.12681161, y: 0.3263469, z: 0.20038494}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -141,3 +142,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elevator: {fileID: 6177852621590105691, guid: 6626e2061e9fc1241b2477b4f6dde21c, type: 3}
+--- !u!114 &-1438642500404963283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7383690717775763570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
